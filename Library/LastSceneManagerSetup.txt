@@ -1,0 +1,5 @@
+sceneSetups:
+- path: Assets/JMO Assets/Cartoon FX/Demo/CFX Free Demo.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
