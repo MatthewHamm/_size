@@ -28,7 +28,8 @@ public class Player : MonoBehaviour
         if (health <= 0)
         {
             Cursor.lockState = CursorLockMode.None;
-            end.alpha=1; 
+            end.alpha=1;
+            Time.timeScale = 0;
         }
         
         velocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical") ).normalized * 1500f/ (health + 40f);

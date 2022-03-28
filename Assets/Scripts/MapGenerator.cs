@@ -182,7 +182,16 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-            GameObject.Instantiate(enemy, enemyPosition + heightCorrect, Quaternion.identity).transform.localScale=new Vector3(1, 1 ,1)* (((5 - allrooms[enemyRoomIndex].height) / 2) - 0.2f);
+            GameObject curEnemy = GameObject.Instantiate(enemy, enemyPosition + heightCorrect, Quaternion.identity);
+            curEnemy.transform.localScale=new Vector3(1, 1 ,1)* (((5 - allrooms[enemyRoomIndex].height) / 2) - 0.2f);
+            Collider[] colliders = curEnemy.GetComponentsInChildren<Collider>();
+            foreach(Collider collider in colliders)
+            {
+                if (collider.isTrigger)
+                {
+                    collider.gameObject.transform.localScale= new Vector3(1, 1, 1) * 2/(5 - allrooms[enemyRoomIndex].height)  ;
+                }
+            }
         }
         for (int i = 0; i < turretNo; i++)
         {
@@ -202,7 +211,16 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-            GameObject.Instantiate(turret, enemyPosition + heightCorrect, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1) * (((5 - allrooms[enemyRoomIndex].height) / 2) - 0.2f);
+            GameObject curEnemy =GameObject.Instantiate(turret, enemyPosition + heightCorrect, Quaternion.identity);
+            curEnemy.transform.localScale = new Vector3(1, 1, 1) * (((5 - allrooms[enemyRoomIndex].height) / 2) - 0.2f);
+            Collider[] colliders = curEnemy.GetComponentsInChildren<Collider>();
+            foreach (Collider collider in colliders)
+            {
+                if (collider.isTrigger)
+                {
+                    collider.gameObject.transform.localScale = new Vector3(1, 1, 1) * 2 / (5 - allrooms[enemyRoomIndex].height);
+                }
+            }
         }
         for (int i = 0; i < rangedNo; i++)
         {
@@ -222,7 +240,16 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-            GameObject.Instantiate(ranged, enemyPosition + heightCorrect, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1) * (((5 - allrooms[enemyRoomIndex].height) / 2) - 0.2f);
+            GameObject curEnemy = GameObject.Instantiate(ranged, enemyPosition + heightCorrect, Quaternion.identity);
+            curEnemy.transform.localScale = new Vector3(1, 1, 1) * (((5 - allrooms[enemyRoomIndex].height) / 2) - 0.2f);
+            Collider[] colliders = curEnemy.GetComponentsInChildren<Collider>();
+            foreach (Collider collider in colliders)
+            {
+                if (collider.isTrigger)
+                {
+                    collider.gameObject.transform.localScale = new Vector3(1, 1, 1) * 2 / (5 - allrooms[enemyRoomIndex].height);
+                }
+            }
         }
         for (int i = 0; i < 5; i++)
         {

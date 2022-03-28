@@ -6,17 +6,31 @@ public class Projectile : MonoBehaviour
 { 
     Rigidbody m_Rigidbody;
     bool isGrounded=false;
+    ParticleSystem poof;
     void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();    
+        m_Rigidbody = GetComponent<Rigidbody>();
+        poof = GetComponentInChildren<ParticleSystem>();
+        poof.Pause();
     }
     void Update()
     {
         if (m_Rigidbody.velocity.magnitude < 0.5 && isGrounded)
         {
-            GameObject.Destroy(gameObject,1);
+            if (!poof.isPlaying)
+            {
+                poof.Play();
+                print(poof);
+                Destroy(gameObject, 1);
+            }
+         
+
         }
-        GameObject.Destroy(gameObject,10);
+        else
+        {
+            Destroy(gameObject, 10);
+        }
+
 
     }
     void OnCollisionEnter(Collision collision)
@@ -27,17 +41,19 @@ public class Projectile : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
             enemy.takeDamage();
-            GameObject.Destroy(gameObject);
+            Destroy(gameObject,0.1f);
         } else if (collision.gameObject.tag == "Turret") {
             Turret turret = collision.gameObject.GetComponent<Turret>();
 
             turret.takeDamage();
-            GameObject.Destroy(gameObject);
-        }else if (collision.gameObject.tag == "Ranged")
+            Destroy(gameObject, 0.1f);
+        }
+        else if (collision.gameObject.tag == "Ranged")
         {
+
             Ranged ranged = collision.gameObject.GetComponent<Ranged>();
             ranged.takeDamage();
-            GameObject.Destroy(gameObject);
+            Destroy(gameObject, 0.1f);
         }
     }
     void OnCollisionStay(Collision collision)

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
-
+    public ParticleSystem deathParticles;
+    public ParticleSystem damageHit;
     string seed;
     System.Random pseudoRandom;
     int rotate;
@@ -28,7 +28,8 @@ public class Enemy : MonoBehaviour
 
         playerInView = false;
         m_Rigidbody = GetComponent<Rigidbody>();
-        
+        damageHit.Pause();
+        deathParticles.Pause();
         
         seed = Time.time.ToString();
         pseudoRandom = new System.Random(seed.GetHashCode());
@@ -47,7 +48,7 @@ public class Enemy : MonoBehaviour
         {
             print("arrived");
             hasTarget = false;
-            m_animator.SetBool("IsMoving", false);
+            //m_animator.SetBool("IsMoving", false);
         }
         if (!hasTarget && Mathf.Approximately(m_Rigidbody.velocity.y,0))
         {
@@ -198,10 +199,11 @@ public class Enemy : MonoBehaviour
         health--;
         if (health <= 0 &&!isDead)
         {
+            
             deathSound.Play();
             isDead = true;
             m_animator.SetTrigger("Death");
-
+            deathParticles.Play();
             GameObject.Destroy(gameObject, 2);
             
 
@@ -210,6 +212,7 @@ public class Enemy : MonoBehaviour
         }
         else if(!isDead)
         {
+            damageHit.Play();
             m_animator.SetTrigger("GetHit");
             //m_animator.ResetTrigger("GetHit");
         }

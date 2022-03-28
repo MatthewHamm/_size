@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ranged : MonoBehaviour
 {
+    public ParticleSystem deathParticles;
+    public ParticleSystem damageHit;
     string seed;
     public AudioSource deathSound;
     public AudioSource shootSound;
@@ -29,7 +31,8 @@ public class Ranged : MonoBehaviour
 
         playerInView = false;
         m_Rigidbody = GetComponent<Rigidbody>();
-
+        damageHit.Pause();
+        deathParticles.Pause();
         seed = Time.time.ToString();
         pseudoRandom = new System.Random(seed.GetHashCode());
 
@@ -47,7 +50,7 @@ public class Ranged : MonoBehaviour
         {
             print("arrived");
             hasTarget = false;
-            m_animator.SetBool("IsMoving", false);
+            //m_animator.SetBool("IsMoving", false);
         }
         if (!hasTarget && Mathf.Approximately(m_Rigidbody.velocity.y, 0))
         {
@@ -203,8 +206,10 @@ public class Ranged : MonoBehaviour
         health--;
         if (health <= 0 && !isDead)
         {
+            
             deathSound.Play();
             isDead = true;
+            deathParticles.Play();
             m_animator.SetTrigger("Death");
 
             GameObject.Destroy(gameObject, 2);
@@ -215,6 +220,7 @@ public class Ranged : MonoBehaviour
         }
         else if (!isDead)
         {
+            damageHit.Play();
             m_animator.SetTrigger("GetHit");
             //m_animator.ResetTrigger("GetHit");
         }

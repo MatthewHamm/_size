@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
+    public ParticleSystem deathParticles;
+    public ParticleSystem damageHit;
     public AudioSource deathSound;
     public AudioSource shootSound;
     string seed;
@@ -28,7 +30,8 @@ public class Turret : MonoBehaviour
         count = 0;
         playerInView = false;
         m_Rigidbody = GetComponent<Rigidbody>();
-
+        damageHit.Pause();
+        deathParticles.Pause();
         seed = Time.time.ToString();
         pseudoRandom = new System.Random(seed.GetHashCode());
 
@@ -190,7 +193,7 @@ public class Turret : MonoBehaviour
             deathSound.Play();
             isDead = true;
             anim.DeathAni();
-
+            deathParticles.Play();
             GameObject.Destroy(gameObject, 2);
 
 
@@ -199,6 +202,7 @@ public class Turret : MonoBehaviour
         }
         else if (!isDead)
         {
+            damageHit.Play();
             anim.DamageAni();
         }
 
